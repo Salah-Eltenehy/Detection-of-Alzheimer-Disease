@@ -1,3 +1,4 @@
+import 'package:alzheimer/modules/upload-image/UploadImage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -14,15 +15,13 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CachHelper.init();
-  // await Firebase.initializeApp();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseDatabase.instance;
   var userID = await CachHelper.getData(key: "uid");
   Widget startWidget = SignInScreen();
   if (userID != null) {
-    startWidget = HomePageScreen();
+    startWidget = UploadImage();
   }
   runApp(MyApp(startWidget: startWidget));
 }
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: startWidget,
+      home: UploadImage(),
     );
   }
 }

@@ -98,20 +98,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Center(
-                  child: CircleAvatar(
-                    radius: 70.0,
-                    backgroundImage: AssetImage('assets/images/helmet.jpeg'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                ),
+                // const Center(
+                //   child: CircleAvatar(
+                //     radius: 70.0,
+                //     backgroundImage: AssetImage('assets/images/helmet.jpeg'),
+                //     backgroundColor: Colors.transparent,
+                //   ),
+                // ),
                 const SizedBox(
-                  height: 20,
+                  height: 60,
                 ),
                 TextFormField(
                     controller: usernameController,
                     validator: (value) {
-                      if (value!.isEmpty) return 'This field is requreid';
+                      if (value!.isEmpty) return 'This field is requried';
                     },
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
@@ -232,7 +232,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 InkWell(
                   onTap: () {
                     if (formKey.currentState!.validate()) {
-                      print("All done");
                       createUser(
                           email: emailController.text,
                           password: passwordController.text,

@@ -7,6 +7,7 @@ import 'package:alzheimer/shared/functions/shared_function.dart';
 
 import '../../shared/network/local/cache_helper.dart';
 import '../forgotPasswod/forgot_pass.dart';
+import '../upload-image/UploadImage.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -34,15 +35,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 60,
                 ),
-                const Center(
-                  child: CircleAvatar(
-                    radius: 70.0,
-                    backgroundImage: AssetImage('assets/images/helmet.jpeg'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                ),
+                // const Center(
+                //   child: CircleAvatar(
+                //     radius: 70.0,
+                //     backgroundImage: AssetImage('assets/images/helmet.jpeg'),
+                //     backgroundColor: Colors.transparent,
+                //   ),
+                // ),
                 const SizedBox(
-                  height: 70,
+                  height: 90,
                 ),
                 defaultTextFormFieldColumn(
                     controller: emailController,
@@ -127,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           .then((value) {
                         print(value.user!.uid);
                         CachHelper.saveData(key: "uid", value: value.user!.uid);
-                        navigateAndFinish(context, HomePageScreen());
+                        navigateAndFinish(context, UploadImage());
                       }).catchError((onError) {
                         showToast(
                             text: onError.toString(),
