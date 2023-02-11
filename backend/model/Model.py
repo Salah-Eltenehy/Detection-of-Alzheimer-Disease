@@ -26,12 +26,12 @@ class Model:
     def run_model(self):
         self.read_data()
         self.df2 = self.df2[1:-1]
-        print(self.df2)
         self.prepare_model()
-        self.plot_clusters()
-        self.predict()
-        self.pca_model()
-        self.save_result()
+        print(self.kmeans.fit_predict(pd.DataFrame([319.871200,  654.391660,  319.871400,  319.871500,  319.871450])))
+        # self.plot_clusters()
+        # self.predict()
+        # # self.pca_model()
+        # self.save_result()
 
     def read_data(self):
         self.collist = ['ID_REF', 'GSM701542', 'GSM701543', 'GSM701544', 'GSM701545', 'mutation', 'log 2 fold change']
@@ -42,6 +42,15 @@ class Model:
         self.df2 = self.df[['GSM701542', 'GSM701543', 'GSM701544', 'GSM701545', 'mutation']]
         self.df1 = self.df2
 
+    def test_gene_from_front(self, gene1, gene2, gene3, gene4, mutation):
+        print(gene1, gene2, gene3, gene4, mutation)
+        received = pd.DataFrame([gene1, gene2, gene3, gene4, mutation])
+        print(received)
+        result = self.kmeans.fit_predict(received)
+        print(result)
+        result = pd.DataFrame(result)
+        result.nunique()
+        return f'{result}'
     def plot_correlation(self):
         """
             The correlation between different feature help to make the relationship
@@ -56,11 +65,10 @@ class Model:
     def prepare_model(self):
         self.clus = []
         self.pred = []
-        for i in range(1, 11):
-            self.kmeans = KMeans(n_clusters=i, init='k-means++', n_init=i, max_iter=50, tol=0.0001,
+        for i in range(1, 4):
+            self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=3, max_iter=50, tol=0.0001,
                                  random_state=42) # , verbose=0
             self.labels = self.kmeans.fit(self.df2)
-
             self.clus.append(self.kmeans.inertia_)
         self.min_samples = self.df2.shape[1] + 1
         print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
@@ -80,11 +88,8 @@ class Model:
         y_kmeans = self.kmeans.fit_predict(self.df2)
         self.pred = pd.DataFrame(y_kmeans)
         self.df3['predicted'] = self.pred
-        print(self.pred)
         self.df3['predicted'].unique()
         self.df3 = self.df3.dropna(axis=0)
-        print("DF3")
-        print(self.df3)
 
     def prep_pca(self, components, data, kmeans_labels):
         names = ['x', 'y', 'z']
@@ -128,3 +133,18 @@ from xlwt import Workbook
 
 #
 # # %% [code] {"id":"OFcP_1EMm1bM","outputId":"1974ba16-11a4-49c8-81e4-6c3d638a93bf"}
+# .dropna(axis=0)
+#
+
+# test_y = KMeans(n_clusters=3, init='k-means++', n_init=3, max_iter=50, tol=0.0001,
+        #                          random_state=42)
+        # test_y_pred = test_y.fit_predict(self.df2)
+        # pred_2 = pd.DataFrame(test_y_pred)
+        # temp = self.df3
+        # temp = pd.DataFrame(temp)
+        # temp['predicted'] = pred_2
+        # temp['predicted'].unique()
+        # temp = temp.dropna(axis=0)
+        # result = temp[['ID', 'predicted', 'Gene.symbol']]
+        # result.to_csv('output2.csv', index=False)
+        # print("yes")
