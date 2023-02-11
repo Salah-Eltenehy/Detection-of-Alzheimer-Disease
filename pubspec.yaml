@@ -46,6 +46,7 @@ dependencies:
   http: ^0.13.5
   easy_search_bar: ^2.4.2
   image_picker: ^0.8.6+1
+  webview_flutter: ^4.0.2
 
 dev_dependencies:
   flutter_test:

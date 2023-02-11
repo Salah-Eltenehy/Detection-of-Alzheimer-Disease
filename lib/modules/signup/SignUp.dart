@@ -98,13 +98,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                // const Center(
-                //   child: CircleAvatar(
-                //     radius: 70.0,
-                //     backgroundImage: AssetImage('assets/images/helmet.jpeg'),
-                //     backgroundColor: Colors.transparent,
-                //   ),
-                // ),
                 const SizedBox(
                   height: 60,
                 ),
@@ -143,8 +136,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'This field is requreid';
-                    } else if (!(value.contains(RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")))) {
+                    }
+                    else if (
+                    !(value.contains(RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")))
+                    )
+                    {
                       return "Please enter a valid e-mail";
                     }
                   },
