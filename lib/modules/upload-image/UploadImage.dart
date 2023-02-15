@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'dart:convert';
+import 'package:alzheimer/modules/SignIn/SignIn.dart';
 import 'package:alzheimer/modules/account/Account.dart';
+import 'package:alzheimer/modules/show-results/ShowResults.dart';
 import 'package:alzheimer/modules/webView/WebView.dart';
+import 'package:alzheimer/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/functions/shared_function.dart';
 class UploadImage extends StatefulWidget {
@@ -91,6 +95,28 @@ class _UploadImageState extends State<UploadImage> {
                       Icon(Icons.info_outline_rounded),
                       SizedBox(width: 30,),
                       Text("Model Information")
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () async {
+                  CachHelper.sharedPreferences = await SharedPreferences.getInstance();
+                  navigateAndFinish(context, SignInScreen());
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue
+                  ),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 8,),
+                      Icon(Icons.exit_to_app_rounded),
+                      SizedBox(width: 30,),
+                      Text("Exit")
                     ],
                   ),
                 ),
@@ -199,6 +225,7 @@ class _UploadImageState extends State<UploadImage> {
                       print(response.body);
                       var r = json.decode(response.body) as Map;
                       print(r);
+                      navigateTo(context, ShowResultsScreen(respone: r['response']));
                       setState(() {
 
                       });
