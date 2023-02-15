@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'dart:convert';
+import 'package:alzheimer/modules/account/Account.dart';
+import 'package:alzheimer/modules/webView/WebView.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+
+import '../../shared/functions/shared_function.dart';
 class UploadImage extends StatefulWidget {
 
   @override
@@ -22,6 +26,79 @@ class _UploadImageState extends State<UploadImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        // backgroundColor: Colors.blue,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+                  navigateTo(context, UserAccount());
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue
+                  ),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 8,),
+                      Icon(Icons.person),
+                      SizedBox(width: 30,),
+                      Text("Account")
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+                    navigateTo(context, ViewScreen());
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue
+                  ),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 8,),
+                      Icon(Icons.medical_information),
+                      SizedBox(width: 30,),
+                      Text("Genes Definitions")
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue
+                  ),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 8,),
+                      Icon(Icons.info_outline_rounded),
+                      SizedBox(width: 30,),
+                      Text("Model Information")
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: const Text("Test Genes"),
         centerTitle: true,

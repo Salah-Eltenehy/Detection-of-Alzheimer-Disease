@@ -121,6 +121,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       //     context,
                       //     MaterialPageRoute(
                       //         builder: (context) => HomePageScreen()));
+                      await CachHelper.saveData(key: 'password', value: passwordController.text);
+                      await CachHelper.saveData(key: 'email', value: emailController.text);
                       await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: emailController.text,

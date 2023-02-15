@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:alzheimer/shared/network/local/cache_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     required password,
     required userName,
     required phone,
-    required role,
   }) async {
     setState(() {
       Loading = true;
@@ -30,13 +30,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) {
       UserModel user =
-          UserModel(email, password, value.user!.uid, userName, phone, role);
+          UserModel(email, password, value.user!.uid, userName, phone);
       FirebaseFirestore.instance
           .collection("Users")
-          .doc(value.user!.uid)
-          .set(user.toMap());
+          .add(user.toMap()).then((value) async {
+            await CachHelper.saveData(key: 'docID', value: value.id);
+      });
     });
-    
+
     setState(() {
       Loading = false;
     });
@@ -233,8 +234,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           email: emailController.text,
                           password: passwordController.text,
                           userName: usernameController.text,
-                          phone: phoneController.text,
-                          role: role);
+                          phone: phoneController.text
+                      );
                       navigateAndFinish(context, SignInScreen());
                     }
                   },
