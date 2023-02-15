@@ -23,14 +23,15 @@ class Model:
         self.collist = None
         self.pred = None
 
+
     def run_model(self):
         self.read_data()
         self.df2 = self.df2[1:-1]
         self.prepare_model()
         print(self.kmeans.fit_predict(pd.DataFrame([319.871200,  654.391660,  319.871400,  319.871500,  319.871450])))
-        # self.plot_clusters()
-        # self.predict()
-        # # self.pca_model()
+        self.plot_clusters()
+        self.predict()
+        self.pca_model()
         # self.save_result()
 
     def read_data(self):
@@ -48,8 +49,7 @@ class Model:
         print(received)
         result = self.kmeans.fit_predict(received)
         print(result)
-        result = pd.DataFrame(result)
-        result.nunique()
+        # result = pd.DataFrame(result)
         return f'{result}'
     def plot_correlation(self):
         """
@@ -65,8 +65,8 @@ class Model:
     def prepare_model(self):
         self.clus = []
         self.pred = []
-        for i in range(1, 4):
-            self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=3, max_iter=50, tol=0.0001,
+        for i in range(1, 11):
+            self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=i, max_iter=50, tol=0.0001,
                                  random_state=42) # , verbose=0
             self.labels = self.kmeans.fit(self.df2)
             self.clus.append(self.kmeans.inertia_)
@@ -78,13 +78,18 @@ class Model:
 
     def plot_clusters(self):
         p1 = range(1, 11)
-        plt.xlabel('Number of clusters')
-        plt.plot(p1, self.clus)
-        plt.title('The Elbow Method Graph')
-        plt.ylabel('clus')
-        plt.show()
+        import matplotlib.pyplot as plt2
+        plt2.plot(p1, self.clus)
+        plt2.xlabel('Number of clusters')
+        plt2.title('The Elbow Method Graph')
+        plt2.ylabel('clus')
+        plt2.savefig('../assets/images/clusters.jpg')
+        # plt.close()
+
 
     def predict(self):
+        self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=10, max_iter=50, tol=0.0001,
+                             random_state=42)
         y_kmeans = self.kmeans.fit_predict(self.df2)
         self.pred = pd.DataFrame(y_kmeans)
         self.df3['predicted'] = self.pred
@@ -102,9 +107,11 @@ class Model:
     def pca_model(self):
         pca_df = self.prep_pca(2, self.df2, self.kmeans.labels_)
         sn.scatterplot(x=pca_df.x, y=pca_df.y, hue=pca_df.labels, palette="Set1")
-        plt.scatter(self.kmeans.cluster_centers_[:, 0], self.kmeans.cluster_centers_[:, 1], s=50, c='k')
-        plt.show()
-        fig = plt.figure(figsize=(10, 10))
+        import matplotlib.pyplot as plt1
+        plt1.scatter(self.kmeans.cluster_centers_[:, 0], self.kmeans.cluster_centers_[:, 1], s=50, c='k')
+        plt1.savefig('../assets/images/samples.jpg')
+        import matplotlib.pyplot as plt2
+        fig = plt2.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(pca_df.x, pca_df.y, pca_df.labels, s=20, c='b')
         str_labels = list(map(lambda label: '% s' % label, self.kmeans.labels_))
@@ -112,7 +119,7 @@ class Model:
                  ax.text(data1, data2, data3, s=str_label, size=16,
                          zorder=10, color='k'), pca_df.x, pca_df.y,
                  pca_df.labels, str_labels))
-        plt.show()
+        plt2.savefig('../assets/images/data.jpg')
 
     def save_result(self):
         result = self.df3[['ID', 'predicted', 'Gene.symbol']]
