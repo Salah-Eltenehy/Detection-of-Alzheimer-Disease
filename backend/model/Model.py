@@ -23,12 +23,13 @@ class Model:
         self.collist = None
         self.pred = None
 
-
     def run_model(self):
         self.read_data()
         self.df2 = self.df2[1:-1]
         self.prepare_model()
-        print(self.kmeans.fit_predict(pd.DataFrame([319.871200,  654.391660,  319.871400,  319.871500,  319.871450])))
+        self.kmeans = KMeans(algorithm='lloyd', n_clusters=3, init='k-means++', n_init=10, max_iter=150, tol=0.0001,
+                             random_state=42).fit(self.df2)
+        print(self.kmeans.fit_predict(pd.DataFrame([319.871200, 654.391660, 319.871400, 319.871500, 319.871450])))
         self.plot_clusters()
         self.predict()
         self.pca_model()
@@ -51,6 +52,7 @@ class Model:
         print(result)
         # result = pd.DataFrame(result)
         return f'{result}'
+
     def plot_correlation(self):
         """
             The correlation between different feature help to make the relationship
@@ -66,15 +68,14 @@ class Model:
         self.clus = []
         self.pred = []
         for i in range(1, 11):
-            self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=i, max_iter=50, tol=0.0001,
-                                 random_state=42) # , verbose=0
-            self.labels = self.kmeans.fit(self.df2)
+            self.kmeans = KMeans(algorithm='lloyd', n_clusters=i, init='k-means++', n_init=i, max_iter=150, tol=0.0001,
+                                 random_state=42).fit(self.df2)  # , verbose=0
             self.clus.append(self.kmeans.inertia_)
         self.min_samples = self.df2.shape[1] + 1
-        print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
+        # print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
         self.pred = [self.kmeans.labels_]
         print(self.pred)
-        print("Minimum number of samples=", self.min_samples)
+        # print("Minimum number of samples=", self.min_samples)
 
     def plot_clusters(self):
         p1 = range(1, 11)
@@ -83,13 +84,13 @@ class Model:
         plt2.xlabel('Number of clusters')
         plt2.title('The Elbow Method Graph')
         plt2.ylabel('clus')
+        # plt2.show()
         plt2.savefig('../assets/images/clusters.jpg')
-        # plt.close()
-
+        plt2.close()
 
     def predict(self):
-        self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=10, max_iter=50, tol=0.0001,
-                             random_state=42)
+        # self.kmeans = KMeans(n_clusters=3, init='k-means++', n_init=10, max_iter=50, tol=0.0001,
+        #                      random_state=42)
         y_kmeans = self.kmeans.fit_predict(self.df2)
         self.pred = pd.DataFrame(y_kmeans)
         self.df3['predicted'] = self.pred
@@ -107,11 +108,12 @@ class Model:
     def pca_model(self):
         pca_df = self.prep_pca(2, self.df2, self.kmeans.labels_)
         sn.scatterplot(x=pca_df.x, y=pca_df.y, hue=pca_df.labels, palette="Set1")
-        import matplotlib.pyplot as plt1
-        plt1.scatter(self.kmeans.cluster_centers_[:, 0], self.kmeans.cluster_centers_[:, 1], s=50, c='k')
-        plt1.savefig('../assets/images/samples.jpg')
-        import matplotlib.pyplot as plt2
-        fig = plt2.figure(figsize=(10, 10))
+        import matplotlib.pyplot as plt4
+        plt4.scatter(self.kmeans.cluster_centers_[:, 0], self.kmeans.cluster_centers_[:, 1], s=50, c='k')
+        # plt4.show()
+        plt4.savefig('../assets/images/samples.jpg')
+        import matplotlib.pyplot as plt5
+        fig = plt5.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(pca_df.x, pca_df.y, pca_df.labels, s=20, c='b')
         str_labels = list(map(lambda label: '% s' % label, self.kmeans.labels_))
@@ -119,7 +121,8 @@ class Model:
                  ax.text(data1, data2, data3, s=str_label, size=16,
                          zorder=10, color='k'), pca_df.x, pca_df.y,
                  pca_df.labels, str_labels))
-        plt2.savefig('../assets/images/data.jpg')
+        # plt2.show()
+        plt5.savefig('../assets/images/data.jpg')
 
     def save_result(self):
         result = self.df3[['ID', 'predicted', 'Gene.symbol']]
@@ -144,14 +147,14 @@ from xlwt import Workbook
 #
 
 # test_y = KMeans(n_clusters=3, init='k-means++', n_init=3, max_iter=50, tol=0.0001,
-        #                          random_state=42)
-        # test_y_pred = test_y.fit_predict(self.df2)
-        # pred_2 = pd.DataFrame(test_y_pred)
-        # temp = self.df3
-        # temp = pd.DataFrame(temp)
-        # temp['predicted'] = pred_2
-        # temp['predicted'].unique()
-        # temp = temp.dropna(axis=0)
-        # result = temp[['ID', 'predicted', 'Gene.symbol']]
-        # result.to_csv('output2.csv', index=False)
-        # print("yes")
+#                          random_state=42)
+# test_y_pred = test_y.fit_predict(self.df2)
+# pred_2 = pd.DataFrame(test_y_pred)
+# temp = self.df3
+# temp = pd.DataFrame(temp)
+# temp['predicted'] = pred_2
+# temp['predicted'].unique()
+# temp = temp.dropna(axis=0)
+# result = temp[['ID', 'predicted', 'Gene.symbol']]
+# result.to_csv('output2.csv', index=False)
+# print("yes")
