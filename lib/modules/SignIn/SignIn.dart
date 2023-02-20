@@ -7,7 +7,7 @@ import 'package:alzheimer/shared/functions/shared_function.dart';
 
 import '../../shared/network/local/cache_helper.dart';
 import '../forgotPasswod/forgot_pass.dart';
-import '../upload-image/UploadImage.dart';
+import '../testGenes/TestGenesScreen.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

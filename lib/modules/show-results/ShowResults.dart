@@ -8,11 +8,10 @@ class ShowResultsScreen extends StatelessWidget {
   String g4 = '9';
   String description = '';
   final String respone;
-
   ShowResultsScreen({super.key, required this.respone}){
     print(respone);
     String r = respone.replaceAll('[', '');
-    r = respone.replaceAll(']', '');
+    r = r.replaceAll(']', '');
     List<String> temp = r.split(' ');
     g1 = temp[0];
     g2 = temp[1];
@@ -27,15 +26,19 @@ class ShowResultsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Image(
-                width: 300,
-                height: 300,
-                // fit: BoxFit.cover,
-                image: AssetImage('assets/images/samples.jpg')
+            Container(
+              width: double.infinity,
+              height: 400,
+              child: const Image(
+                  width: double.infinity,
+                  // height: double.infinity,
+                  fit: BoxFit.fill,
+                  image: AssetImage('assets/images/samples.jpg')
+              ),
             ),
             const SizedBox(height: 20,),
             Text(

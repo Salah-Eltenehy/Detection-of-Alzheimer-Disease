@@ -138,60 +138,15 @@ class _UploadImageState extends State<UploadImage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 40,),
-                Row(
-                  children: [
-                    textField(controller: firstGeneController, label: 'GSM701542 Gene'),
-                    const SizedBox(width: 8,),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.question_mark_sharp)
-                    ),
-                  ],
-                ),
+                textField(controller: firstGeneController, label: 'GSM701542 Gene'),
                 const SizedBox(height: 10,),
-                Row(
-                  children: [
-                    textField(controller: secondGeneController, label: 'GSM701543 Gene'),
-                    const SizedBox(width: 8,),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.question_mark_sharp)
-                    ),
-                  ],
-                ),
+                textField(controller: secondGeneController, label: 'GSM701543 Gene'),
                 const SizedBox(height: 10,),
-                Row(
-                  children: [
-                    textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
-                    const SizedBox(width: 8,),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.question_mark_sharp)
-                    ),
-                  ],
-                ),
+                textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
                 const SizedBox(height: 10,),
-                Row(
-                  children: [
-                    textField(controller: forthGeneController, label: 'GSM701545 Gene'),
-                    const SizedBox(width: 8,),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.question_mark_sharp)
-                    ),
-                  ],
-                ),
+                textField(controller: forthGeneController, label: 'GSM701545 Gene'),
                 const SizedBox(height: 10,),
-                Row(
-                  children: [
-                    textField(controller: mutationController, label: 'Mutation'),
-                    const SizedBox(width: 8,),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.question_mark_sharp)
-                    ),
-                  ],
-                ),
+                textField(controller: mutationController, label: 'Mutation'),
                 const SizedBox(height: 10,),
                 const SizedBox(height: 20,),
                 Text(
@@ -247,31 +202,29 @@ class _UploadImageState extends State<UploadImage> {
           required String label,
         }
       ) {
-    return Expanded(
-      child: TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.text,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "This field is require";
-          }
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.text,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "This field is require";
+        }
 
-          else if (
-          !(value.contains(RegExp(
-              r"^[0-9.]")))
-          )
-          {
-            return "Please enter a value\nFor more information click on mark";
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            // labelText: label,
-            border: const OutlineInputBorder(),
-            hintText: label
-        ),
+        else if (
+        !(value.contains(RegExp(
+            r"^[0-9.]")))
+        )
+        {
+          return "Please enter a value\nFor more information click on Genes definition tap at the top left";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          // labelText: label,
+          border: const OutlineInputBorder(),
+          hintText: label
       ),
     );
   }
