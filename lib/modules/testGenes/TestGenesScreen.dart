@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:alzheimer/modules/SignIn/SignIn.dart';
 import 'package:alzheimer/modules/account/Account.dart';
+import 'package:alzheimer/modules/model-information/ModelInformationScreen.dart';
 import 'package:alzheimer/modules/show-results/ShowResults.dart';
 import 'package:alzheimer/modules/webView/WebView.dart';
 import 'package:alzheimer/shared/network/local/cache_helper.dart';
@@ -11,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../shared/constants/Constants.dart';
 import '../../shared/functions/shared_function.dart';
 class UploadImage extends StatefulWidget {
 
@@ -31,7 +33,7 @@ class _UploadImageState extends State<UploadImage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        // backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey[100],
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -81,6 +83,7 @@ class _UploadImageState extends State<UploadImage> {
               const SizedBox(height: 10,),
               InkWell(
                 onTap: () {
+                  navigateTo(context, ModelInformationScreen());
 
                 },
                 child: Container(
@@ -102,7 +105,9 @@ class _UploadImageState extends State<UploadImage> {
               const SizedBox(height: 10,),
               InkWell(
                 onTap: () async {
+                  var doc = await CachHelper.getData(key: 'docID');
                   CachHelper.sharedPreferences = await SharedPreferences.getInstance();
+                  await CachHelper.saveData(key: 'docID', value: doc);
                   navigateAndFinish(context, SignInScreen());
                 },
                 child: Container(
@@ -129,67 +134,78 @@ class _UploadImageState extends State<UploadImage> {
         title: const Text("Test Genes"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-          child: Center(
-            child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40,),
-                textField(controller: firstGeneController, label: 'GSM701542 Gene'),
-                const SizedBox(height: 10,),
-                textField(controller: secondGeneController, label: 'GSM701543 Gene'),
-                const SizedBox(height: 10,),
-                textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
-                const SizedBox(height: 10,),
-                textField(controller: forthGeneController, label: 'GSM701545 Gene'),
-                const SizedBox(height: 10,),
-                textField(controller: mutationController, label: 'Mutation'),
-                const SizedBox(height: 10,),
-                const SizedBox(height: 20,),
-                Text(
-                  res,
-                  style: const TextStyle(
-                      color: Colors.blue
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                MaterialButton(
-                  color: Colors.blue,
-                  onPressed: () async {
-                    if(formKey.currentState!.validate()) {
-                      print("YES");
-                      String g1 ="${firstGeneController.text}";
-                      String g2 = "${secondGeneController.text}";
-                      String g3 = "${thirdGeneController.text}";
-                      String g4 = "${forthGeneController.text}";
-                      String mu = "${mutationController.text}";
-                      String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
-                      var response = await http.post(
-                          Uri.parse(url),
-                        //   body: json.encode({
-                        //     'gene1': firstGeneController.text,
-                        //     'gene2': secondGeneController.text,
-                        //     'gene3': thirdGeneController.text,
-                        //     'gene4': forthGeneController.text,
-                        //     'mutation': mutationController.text
-                        // })
-                      );
-                      print(response.body);
-                      var r = json.decode(response.body) as Map;
-                      print(r);
-                      navigateTo(context, ShowResultsScreen(respone: r['response']));
-                      setState(() {
+      backgroundColor: Colors.grey[300],
+      body: Center(
+        child: Container(
+          width: PAGEWIDTH,
+          height: double.infinity,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+            color: Colors.grey[100]
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: formKey,
+              child: Center(
+                child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 40,),
+                    textField(controller: firstGeneController, label: 'GSM701542 Gene'),
+                    const SizedBox(height: 10,),
+                    textField(controller: secondGeneController, label: 'GSM701543 Gene'),
+                    const SizedBox(height: 10,),
+                    textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
+                    const SizedBox(height: 10,),
+                    textField(controller: forthGeneController, label: 'GSM701545 Gene'),
+                    const SizedBox(height: 10,),
+                    textField(controller: mutationController, label: 'Mutation'),
+                    const SizedBox(height: 10,),
+                    const SizedBox(height: 20,),
+                    Text(
+                      res,
+                      style: const TextStyle(
+                          color: Colors.blue
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    MaterialButton(
+                      color: Colors.blue,
+                      onPressed: () async {
+                        if(formKey.currentState!.validate()) {
+                          print("YES");
+                          String g1 ="${firstGeneController.text}";
+                          String g2 = "${secondGeneController.text}";
+                          String g3 = "${thirdGeneController.text}";
+                          String g4 = "${forthGeneController.text}";
+                          String mu = "${mutationController.text}";
+                          String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
+                          var response = await http.post(
+                              Uri.parse(url),
+                            //   body: json.encode({
+                            //     'gene1': firstGeneController.text,
+                            //     'gene2': secondGeneController.text,
+                            //     'gene3': thirdGeneController.text,
+                            //     'gene4': forthGeneController.text,
+                            //     'mutation': mutationController.text
+                            // })
+                          );
+                          print(response.body);
+                          var r = json.decode(response.body) as Map;
+                          print(r);
+                          navigateTo(context, ShowResultsScreen(respone: r['response']));
+                          setState(() {
 
-                      });
-                    }
+                          });
+                        }
 
-                  },
-                  child: const Text("Show Results"),
+                      },
+                      child: const Text("Show Results"),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../../shared/constants/Constants.dart';
+
 class UserAccount extends StatefulWidget {
 
   @override
@@ -83,39 +85,47 @@ class _UserAccountState extends State<UserAccount> {
       body: Form(
         key: formKey,
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView(
-              children: [
-                const SizedBox(height: 20,),
-                const SizedBox(height: 20,),
-                textField(controller: usernameController, label: 'User Name'),
-                const SizedBox(height: 10,),
-                textField(controller: emailController, label: 'Email Address'),
-                const SizedBox(height: 10,),
-                textField(controller: phoneController, label: 'Phone Number'),
-                const SizedBox(height: 10,),
-                textField(controller: passwordController, label: 'Password'),
-                const SizedBox(height: 26,),
-                Container(
-                  width: double.infinity,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10)
+          child: Container(
+            width: PAGEWIDTH,
+            height: double.infinity,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                color: Colors.grey[100]
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                children: [
+                  const SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
+                  textField(controller: usernameController, label: 'User Name'),
+                  const SizedBox(height: 10,),
+                  textField(controller: emailController, label: 'Email Address'),
+                  const SizedBox(height: 10,),
+                  textField(controller: phoneController, label: 'Phone Number'),
+                  const SizedBox(height: 10,),
+                  textField(controller: passwordController, label: 'Password'),
+                  const SizedBox(height: 26,),
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: MaterialButton(
+                        onPressed: () {
+                            if(formKey.currentState!.validate()) {
+                              updateUser(emailController.text, phoneController.text, usernameController.text);
+                              updateEmailAndPassword(emailController.text, passwordController.text);
+                              navigateAndFinish(context, SignInScreen());
+                            }
+                        },
+                      child: const Center(child: Text("Save", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
+                    ),
                   ),
-                  child: MaterialButton(
-                      onPressed: () {
-                          if(formKey.currentState!.validate()) {
-                            updateUser(emailController.text, phoneController.text, usernameController.text);
-                            updateEmailAndPassword(emailController.text, passwordController.text);
-                            navigateAndFinish(context, SignInScreen());
-                          }
-                      },
-                    child: const Center(child: Text("Save", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

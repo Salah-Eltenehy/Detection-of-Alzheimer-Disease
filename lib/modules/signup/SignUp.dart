@@ -7,6 +7,7 @@ import 'package:alzheimer/modules/SignIn/SignIn.dart';
 import 'package:alzheimer/shared/functions/shared_function.dart';
 
 import '../../models/userModel.dart';
+import '../../shared/constants/Constants.dart';
 import '../../shared/functions/passwordcheck.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -89,177 +90,187 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 60,
-                ),
-                TextFormField(
-                    controller: usernameController,
-                    validator: (value) {
-                      if (value!.isEmpty) return 'This field is requried';
-                    },
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                        labelText: 'User name',
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.person))),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                    controller: phoneController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'This field is requreid';
-                      } else if (value.length != 13) {
-                        return 'Please enter a valid number';
-                      }
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        labelText: 'Phone number',
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.phone))),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: emailController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'This field is requreid';
-                    }
-                    else if (
-                    !(value.contains(RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")))
-                    )
-                    {
-                      return "Please enter a valid e-mail";
-                    }
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                      labelText: 'Email address',
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.email)),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  onChanged: (value) {
-                    PasswordInteraction(value);
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) return 'This field is requreid';
-                    if (value.length < 8) return 'Please enter valid password';
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: secure ? true : false,
-                  decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              secure = !secure;
-                            });
-                          },
-                          icon: secure
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off))),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                CheckCard("Has Uppercase", hasUpper),
-                const SizedBox(
-                  height: 10,
-                ),
-                CheckCard("Has Lowercase", hasLower),
-                const SizedBox(
-                  height: 10,
-                ),
-                CheckCard("Has Special Character", hsaSpecial),
-                const SizedBox(
-                  height: 10,
-                ),
-                CheckCard("At least one number", hasDigit),
-                const SizedBox(
-                  height: 10,
-                ),
-                CheckCard("At least 8 digits", is8digits),
-                const SizedBox(
-                  height: 10,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
+      body: Center(
+        child: Container(
+          width: PAGEWIDTH,
+          height: double.infinity,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              color: Colors.grey[100]
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
-                    const Text('Have an account? '),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      SignInScreen()));
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    TextFormField(
+                        controller: usernameController,
+                        validator: (value) {
+                          if (value!.isEmpty) return 'This field is requried';
                         },
-                        child: const Text(
-                          'Sign in',
-                          style: TextStyle(color: Colors.blue),
-                        )),
+                        keyboardType: TextInputType.text,
+                        decoration: const InputDecoration(
+                            labelText: 'User name',
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.person))),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                        controller: phoneController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'This field is requreid';
+                          } else if (value.length != 13) {
+                            return 'Please enter a valid number';
+                          }
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                            labelText: 'Phone number',
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.phone))),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: emailController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'This field is requreid';
+                        }
+                        else if (
+                        !(value.contains(RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")))
+                        )
+                        {
+                          return "Please enter a valid e-mail";
+                        }
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                          labelText: 'Email address',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.email)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      onChanged: (value) {
+                        PasswordInteraction(value);
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) return 'This field is requreid';
+                        if (value.length < 8) return 'Please enter valid password';
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: secure ? true : false,
+                      decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  secure = !secure;
+                                });
+                              },
+                              icon: secure
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off))),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CheckCard("Has Uppercase", hasUpper),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CheckCard("Has Lowercase", hasLower),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CheckCard("Has Special Character", hsaSpecial),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CheckCard("At least one number", hasDigit),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CheckCard("At least 8 digits", is8digits),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const Text('Have an account? '),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          SignInScreen()));
+                            },
+                            child: const Text(
+                              'Sign in',
+                              style: TextStyle(color: Colors.blue),
+                            )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          createUser(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              userName: usernameController.text,
+                              phone: phoneController.text
+                          );
+                          navigateAndFinish(context, SignInScreen());
+                        }
+                      },
+                      child: Container(
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.blue),
+                        child: Center(
+                            child: Loading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text(
+                                    'Create an acount',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      createUser(
-                          email: emailController.text,
-                          password: passwordController.text,
-                          userName: usernameController.text,
-                          phone: phoneController.text
-                      );
-                      navigateAndFinish(context, SignInScreen());
-                    }
-                  },
-                  child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.blue),
-                    child: Center(
-                        child: Loading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : const Text(
-                                'Create an acount',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
