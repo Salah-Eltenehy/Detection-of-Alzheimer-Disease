@@ -26,14 +26,15 @@ class Model:
     def run_model(self):
         self.read_data()
         self.df2 = self.df2[1:-1]
-        self.prepare_model()
-        self.kmeans = KMeans(algorithm='lloyd', n_clusters=3, init='k-means++', n_init=10, max_iter=150, tol=0.0001,
+        # self.prepare_model()
+        self.kmeans = KMeans(algorithm='lloyd', n_clusters=2, init='k-means++', n_init=10, max_iter=150, tol=0.0001,
                              random_state=42).fit(self.df2)
-        print(self.kmeans.fit_predict(pd.DataFrame([319.871200, 654.391660, 319.871400, 319.871500, 319.871450])))
-        self.plot_clusters()
+        print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
+        # print(self.kmeans.fit_predict(pd.DataFrame([319.871200, 654.391660, 319.871400, 319.871500, 319.871450])))
+        # self.plot_clusters()
         self.predict()
         self.pca_model()
-        # self.save_result()
+        self.save_result()
 
     def read_data(self):
         self.collist = ['ID_REF', 'GSM701542', 'GSM701543', 'GSM701544', 'GSM701545', 'mutation', 'log 2 fold change']
