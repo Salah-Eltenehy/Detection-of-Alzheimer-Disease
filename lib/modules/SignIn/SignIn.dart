@@ -131,6 +131,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               .then((value) {
                             print(value.user!.uid);
                             CachHelper.saveData(key: "uid", value: value.user!.uid);
+
                             navigateAndFinish(context, UploadImage());
                           }).catchError((onError) {
                             showToast(

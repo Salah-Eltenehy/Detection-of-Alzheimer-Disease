@@ -37,6 +37,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .add(user.toMap()).then((value) async {
             await CachHelper.saveData(key: 'docID', value: value.id);
       });
+      FirebaseFirestore.instance
+          .collection("Users")
+          .get()
+          .then((value) {
+
+      })
+      ;
     });
 
     setState(() {

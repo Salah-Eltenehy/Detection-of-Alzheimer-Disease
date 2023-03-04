@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/constants/Constants.dart';
 import '../../shared/functions/shared_function.dart';
@@ -21,7 +22,7 @@ class UploadImage extends StatefulWidget {
 }
 
 class _UploadImageState extends State<UploadImage> {
-
+  bool isDoctor = true;
   var firstGeneController = TextEditingController();
   var secondGeneController = TextEditingController();
   var thirdGeneController = TextEditingController();
@@ -29,6 +30,17 @@ class _UploadImageState extends State<UploadImage> {
   var mutationController = TextEditingController();
   String res = "";
   var formKey = GlobalKey<FormState>();
+  String tst = 'Hello';
+  _launchURL() async {
+    // var url = 'whatsapp://send?phone=0201021890205&text=${Uri.encodeComponent('Hello')}';
+    var url = 'https://api.whatsapp.com/send/?phone=+201021370424&text=Hello';
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,6 +145,13 @@ class _UploadImageState extends State<UploadImage> {
       appBar: AppBar(
         title: const Text("Test Genes"),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                _launchURL();
+              },
+              icon: const Icon(Icons.call))
+        ],
       ),
       backgroundColor: Colors.grey[300],
       body: Center(
