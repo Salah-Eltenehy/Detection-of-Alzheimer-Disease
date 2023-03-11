@@ -131,7 +131,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               .then((value) {
                             print(value.user!.uid);
                             CachHelper.saveData(key: "uid", value: value.user!.uid);
-                            navigateAndFinish(context, UploadImage());
+
+                            navigateAndFinish(context, TestGenesModel());
                           }).catchError((onError) {
                             showToast(
                                 text: 'Invalid Email or Password',

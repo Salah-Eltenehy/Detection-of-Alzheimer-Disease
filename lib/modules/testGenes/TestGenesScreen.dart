@@ -11,17 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/constants/Constants.dart';
 import '../../shared/functions/shared_function.dart';
-class UploadImage extends StatefulWidget {
+class TestGenesModel extends StatefulWidget {
 
   @override
-  State<UploadImage> createState() => _UploadImageState();
+  State<TestGenesModel> createState() => _TestGenesModelState();
 }
 
-class _UploadImageState extends State<UploadImage> {
-
+class _TestGenesModelState extends State<TestGenesModel> {
+  bool isDoctor = true;
   var firstGeneController = TextEditingController();
   var secondGeneController = TextEditingController();
   var thirdGeneController = TextEditingController();
@@ -29,112 +30,33 @@ class _UploadImageState extends State<UploadImage> {
   var mutationController = TextEditingController();
   String res = "";
   var formKey = GlobalKey<FormState>();
+  String tst = 'Hello';
+  _launchURL() async {
+    // var url = 'whatsapp://send?phone=0201021890205&text=${Uri.encodeComponent('Hello')}';
+    var url = 'https://api.whatsapp.com/send/?phone=+201021370424&text=Hello';
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.grey[100],
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const SizedBox(height: 10,),
-              InkWell(
-                onTap: () {
-                  navigateTo(context, UserAccount());
-                },
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue
-                  ),
-                  child: Row(
-                    children: const [
-                      SizedBox(width: 8,),
-                      Icon(Icons.person),
-                      SizedBox(width: 30,),
-                      Text("Account")
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              InkWell(
-                onTap: () {
-                    navigateTo(context, ViewScreen());
-                },
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blue
-                  ),
-                  child: Row(
-                    children: const [
-                      SizedBox(width: 8,),
-                      Icon(Icons.medical_information),
-                      SizedBox(width: 30,),
-                      Text("Genes Definitions")
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              InkWell(
-                onTap: () {
-                  navigateTo(context, ModelInformationScreen());
-
-                },
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue
-                  ),
-                  child: Row(
-                    children: const [
-                      SizedBox(width: 8,),
-                      Icon(Icons.info_outline_rounded),
-                      SizedBox(width: 30,),
-                      Text("Model Information")
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              InkWell(
-                onTap: () async {
-                  var doc = await CachHelper.getData(key: 'docID');
-                  CachHelper.sharedPreferences = await SharedPreferences.getInstance();
-                  await CachHelper.saveData(key: 'docID', value: doc);
-                  navigateAndFinish(context, SignInScreen());
-                },
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue
-                  ),
-                  child: Row(
-                    children: const [
-                      SizedBox(width: 8,),
-                      Icon(Icons.exit_to_app_rounded),
-                      SizedBox(width: 30,),
-                      Text("Exit")
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
       appBar: AppBar(
         title: const Text("Test Genes"),
         centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        actions: [
+          IconButton(
+              onPressed: () {
+                _launchURL();
+              },
+              icon: const Icon(Icons.call))
+        ],
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: kPrimaryLightColor,
       body: Center(
         child: Container(
           width: PAGEWIDTH,
@@ -171,10 +93,10 @@ class _UploadImageState extends State<UploadImage> {
                     ),
                     const SizedBox(height: 20,),
                     MaterialButton(
-                      color: Colors.blue,
+                      color: kPrimaryColor,
+                      height: 60,
                       onPressed: () async {
                         if(formKey.currentState!.validate()) {
-                          print("YES");
                           String g1 ="${firstGeneController.text}";
                           String g2 = "${secondGeneController.text}";
                           String g3 = "${thirdGeneController.text}";
@@ -183,17 +105,9 @@ class _UploadImageState extends State<UploadImage> {
                           String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
                           var response = await http.post(
                               Uri.parse(url),
-                            //   body: json.encode({
-                            //     'gene1': firstGeneController.text,
-                            //     'gene2': secondGeneController.text,
-                            //     'gene3': thirdGeneController.text,
-                            //     'gene4': forthGeneController.text,
-                            //     'mutation': mutationController.text
-                            // })
                           );
                           print(response.body);
                           var r = json.decode(response.body) as Map;
-                          print(r);
                           navigateTo(context, ShowResultsScreen(respone: r['response']));
                           setState(() {
 
@@ -235,11 +149,17 @@ class _UploadImageState extends State<UploadImage> {
         }
         return null;
       },
+      cursorColor: kPrimaryColor,
       decoration: InputDecoration(
           contentPadding:
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           // labelText: label,
-          border: const OutlineInputBorder(),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: kPrimaryColor
+            )
+          ),
           hintText: label
       ),
     );

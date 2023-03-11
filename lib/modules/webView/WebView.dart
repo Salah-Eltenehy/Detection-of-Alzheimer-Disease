@@ -28,16 +28,18 @@ class _ViewScreenState extends State<ViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPrimaryColor,
         title: const Text('Genes Definitions'),
+        centerTitle: true,
       ),
       // body: WebViewWidget(controller: controller,),
       body: Center(
         child: Container(
-          width: PAGEWIDTH,
+          width: PAGEWIDTH/1.2,
           height: double.infinity,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
-              color: Colors.grey[100]
+              color: kPrimaryLightColor
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -65,7 +67,7 @@ International Practical Shooting Confederation (IPSC).
                 const SizedBox(height: 20,),
                 Center(
                 child: MaterialButton(
-                  color: Colors.blue,
+                  color: kPrimaryColor,
                   onPressed: _launchURL,
                     child:const  Text('Show Genes Definitions'),
                   ),

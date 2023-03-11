@@ -17,15 +17,17 @@ class ModelInformationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPrimaryColor,
         title: const Text('Model Information'),
+        centerTitle: true,
       ),
       body: Center(
         child: Container(
-          width: PAGEWIDTH,
+          width: PAGEWIDTH/1.1,
           height: double.infinity,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
-              color: Colors.grey[100]
+              color: kPrimaryLightColor
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -56,8 +58,9 @@ Information about Kmeans clustring:
                       children: [
                         Spacer(),
                         TextButton(
+
                             onPressed: _launchURL,
-                            child: const Text('For more Information ?')
+                            child: const Text('For more Information ?', style: TextStyle(color: kPrimaryColor),)
                         ),
                       ],
                     ),

@@ -10,8 +10,8 @@ import 'package:alzheimer/modules/signup/SignUp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:alzheimer/shared/network/local/cache_helper.dart';
 import 'firebase_options.dart';
+import 'modules/home-page/HomePage.dart';
 import 'modules/webView/WebView.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CachHelper.init();
@@ -21,16 +21,19 @@ Future<void> main() async {
   var userID = await CachHelper.getData(key: "uid");
   Widget startWidget = SignInScreen();
   if (userID != null) {
-    startWidget = UploadImage();
+    startWidget = TestGenesModel();
   }
-  runApp(MyApp(startWidget: startWidget));
+  var isDoc = await CachHelper.getData(key: 'isDoc')??false;
+  runApp(MyApp(startWidget: HomePageScreen(), isDocotr: isDoc));
 }
 
 class MyApp extends StatelessWidget {
+  final isDocotr;
   final Widget startWidget;
   const MyApp({
     super.key,
     required this.startWidget,
+    required this.isDocotr
   });
   @override
   Widget build(BuildContext context) {
