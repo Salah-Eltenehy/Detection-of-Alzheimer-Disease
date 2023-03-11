@@ -80,13 +80,15 @@ class _UserAccountState extends State<UserAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPrimaryColor,
         title: const Text('Account'),
+        centerTitle: true,
       ),
       body: Form(
         key: formKey,
         child: Center(
           child: Container(
-            width: PAGEWIDTH,
+            width: PAGEWIDTH/1.2,
             height: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
@@ -114,6 +116,7 @@ class _UserAccountState extends State<UserAccount> {
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: MaterialButton(
+                      color: kPrimaryColor,
                         onPressed: () {
                             if(formKey.currentState!.validate()) {
                               updateUser(emailController.text, phoneController.text, usernameController.text);
@@ -159,7 +162,12 @@ class _UserAccountState extends State<UserAccount> {
           contentPadding:
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           // labelText: label,
-          border: const OutlineInputBorder(),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 3,
+              color: kPrimaryColor
+            )
+          ),
           labelText: label
       ),
     );
