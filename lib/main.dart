@@ -9,6 +9,7 @@ import 'package:alzheimer/modules/signup/SignUp.dart';
 // ignore_for_file: prefer_equal_for_default_values
 import 'package:firebase_core/firebase_core.dart';
 import 'package:alzheimer/shared/network/local/cache_helper.dart';
+import 'Screens/Welcome/welcome_screen.dart';
 import 'firebase_options.dart';
 import 'modules/home-page/HomePage.dart';
 import 'modules/webView/WebView.dart';
