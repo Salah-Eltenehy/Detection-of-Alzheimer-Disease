@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../Test.dart';
 import '../../shared/constants/Constants.dart';
 import '../genes/Genes.dart';
+import '../mri/MRI.dart';
 
 class HomePageScreen extends StatelessWidget {
   late int index ;
@@ -37,16 +38,21 @@ class HomePageScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                        child: CircleAvatar(
-                          backgroundColor: kPrimaryColor,
-                          radius: circleRadius,
-                          child: Text(
-                              "MRI Model",
-                              style: TextStyle(
-                                fontSize: circleTextSize,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black
-                              ),
+                        child: InkWell(
+                          onTap: () {
+                            navigateTo(context, MRIMainScreen(index));
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: kPrimaryColor,
+                            radius: circleRadius,
+                            child: Text(
+                                "MRI Model",
+                                style: TextStyle(
+                                  fontSize: circleTextSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black
+                                ),
+                            ),
                           ),
                         )
                     ),

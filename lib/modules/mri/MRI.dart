@@ -1,7 +1,9 @@
 import 'package:alzheimer/Test.dart';
+import 'package:alzheimer/modules/cnn/CNN.dart';
 import 'package:alzheimer/modules/model-information/ModelInformationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../shared/constants/Constants.dart';
 import '../../shared/functions/shared_function.dart';
 import '../../shared/network/local/cache_helper.dart';
@@ -9,10 +11,11 @@ import '../SignIn/SignIn.dart';
 import '../account/Account.dart';
 import '../testGenes/TestGenesScreen.dart';
 import '../webView/WebView.dart';
+import 'MRIModelInformatin.dart';
 
-class GenesMainScreen extends StatelessWidget {
+class MRIMainScreen extends StatelessWidget {
   late int index;
-  GenesMainScreen(int i) {
+  MRIMainScreen(int i) {
     index = i;
   }
   double circleRadius = 80;
@@ -24,7 +27,7 @@ class GenesMainScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: const Text(
-          "Genes Main Screen",
+          "MRI Main Screen",
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black
@@ -45,26 +48,26 @@ class GenesMainScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                navigateTo(context, ViewScreen(index));
-                              },
-                              child: rowElement(
-                                  text: "Genes Definitions",
-                                  r: circleRadius*1.2
-                              ),
+                          child: InkWell(
+                            onTap: () {
+                              navigateTo(context, MRIInfo(index));
+                            },
+                            child: rowElement(
+                                text: "MRI Definitions",
+                                r: circleRadius*1.2
                             ),
+                          ),
                         ),
                         Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                navigateTo(context, ModelInformationScreen(index));
-                              },
-                              child: rowElement(
-                                  text: "Model Information",
-                                  r: circleRadius*1.2
-                              ),
+                          child: InkWell(
+                            onTap: () {
+                              navigateTo(context, CNNScreen(index));
+                            },
+                            child: rowElement(
+                                text: "CNN Information",
+                                r: circleRadius*1.2
                             ),
+                          ),
                         ),
                       ],
                     ),
