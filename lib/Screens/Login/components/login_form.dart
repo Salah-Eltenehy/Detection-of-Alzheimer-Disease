@@ -21,6 +21,7 @@ class LoginForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
+
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
@@ -76,7 +77,7 @@ class LoginForm extends StatelessWidget {
                     print(value.user!.uid);
                     CachHelper.saveData(key: "uid", value: value.user!.uid);
 
-                    navigateAndFinish(context, HomePageScreen());
+                    navigateAndFinish(context, HomePageScreen(0));
                   }).catchError((onError) {
                     showToast(
                         text: 'Invalid Email or Password',

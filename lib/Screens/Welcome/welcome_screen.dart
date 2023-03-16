@@ -13,12 +13,12 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: PAGEWIDTH/1.2,
-        height: double.infinity,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            color: Colors.grey[100]
-        ),
+        // width: PAGEWIDTH/1.2,
+        // height: double.infinity,
+        // decoration: BoxDecoration(
+        //     border: Border.all(color: Colors.grey),
+        //     color: Colors.grey[100]
+        // ),
 
         child: Background(
           child: SingleChildScrollView(

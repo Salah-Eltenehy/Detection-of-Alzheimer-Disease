@@ -13,10 +13,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Test.dart';
 import '../../shared/constants/Constants.dart';
 import '../../shared/functions/shared_function.dart';
 class TestGenesModel extends StatefulWidget {
-
+  late int index;
+  TestGenesModel(this.index);
   @override
   State<TestGenesModel> createState() => _TestGenesModelState();
 }
@@ -57,72 +59,71 @@ class _TestGenesModelState extends State<TestGenesModel> {
         ],
       ),
       backgroundColor: kPrimaryLightColor,
-      body: Center(
-        child: Container(
-          width: PAGEWIDTH,
-          height: double.infinity,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-            color: Colors.grey[100]
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: formKey,
-              child: Center(
-                child: ListView(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 40,),
-                    textField(controller: firstGeneController, label: 'GSM701542 Gene'),
-                    const SizedBox(height: 10,),
-                    textField(controller: secondGeneController, label: 'GSM701543 Gene'),
-                    const SizedBox(height: 10,),
-                    textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
-                    const SizedBox(height: 10,),
-                    textField(controller: forthGeneController, label: 'GSM701545 Gene'),
-                    const SizedBox(height: 10,),
-                    textField(controller: mutationController, label: 'Mutation'),
-                    const SizedBox(height: 10,),
-                    const SizedBox(height: 20,),
-                    Text(
-                      res,
-                      style: const TextStyle(
-                          color: Colors.blue
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    MaterialButton(
-                      color: kPrimaryColor,
-                      height: 60,
-                      onPressed: () async {
-                        if(formKey.currentState!.validate()) {
-                          String g1 ="${firstGeneController.text}";
-                          String g2 = "${secondGeneController.text}";
-                          String g3 = "${thirdGeneController.text}";
-                          String g4 = "${forthGeneController.text}";
-                          String mu = "${mutationController.text}";
-                          String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
-                          var response = await http.post(
-                              Uri.parse(url),
-                          );
-                          print(response.body);
-                          var r = json.decode(response.body) as Map;
-                          navigateTo(context, ShowResultsScreen(respone: r['response']));
-                          setState(() {
+      body: Row(
+        children: [
+          Expanded(child: PageViewScreen(widget.index)),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: formKey,
+                  child: Center(
+                    child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 40,),
+                        textField(controller: firstGeneController, label: 'GSM701542 Gene'),
+                        const SizedBox(height: 10,),
+                        textField(controller: secondGeneController, label: 'GSM701543 Gene'),
+                        const SizedBox(height: 10,),
+                        textField(controller: thirdGeneController, label: 'GSM701544 Gene'),
+                        const SizedBox(height: 10,),
+                        textField(controller: forthGeneController, label: 'GSM701545 Gene'),
+                        const SizedBox(height: 10,),
+                        textField(controller: mutationController, label: 'Mutation'),
+                        const SizedBox(height: 10,),
+                        const SizedBox(height: 20,),
+                        Text(
+                          res,
+                          style: const TextStyle(
+                              color: Colors.blue
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        MaterialButton(
+                          color: kPrimaryColor,
+                          height: 60,
+                          onPressed: () async {
+                            if(formKey.currentState!.validate()) {
+                              String g1 ="${firstGeneController.text}";
+                              String g2 = "${secondGeneController.text}";
+                              String g3 = "${thirdGeneController.text}";
+                              String g4 = "${forthGeneController.text}";
+                              String mu = "${mutationController.text}";
+                              String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
+                              var response = await http.post(
+                                  Uri.parse(url),
+                              );
+                              print(response.body);
+                              var r = json.decode(response.body) as Map;
+                              navigateTo(context, ShowResultsScreen(respone: r['response'], index: widget.index,));
+                              setState(() {
 
-                          });
-                        }
+                              });
+                            }
 
-                      },
-                      child: const Text("Show Results"),
+                          },
+                          child: const Text("Show Results"),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

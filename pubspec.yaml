@@ -48,6 +48,7 @@ dependencies:
   url_launcher:
   image_picker: ^0.8.6+1
   flutter_svg:
+  smooth_page_indicator:
 #  webview_flutter: ^4.0.2
 #  webview_flutter: ^2.7.0
 #  webviewx: ^0.2.1
