@@ -101,7 +101,7 @@ class _TestGenesModelState extends State<TestGenesModel> {
                               String g3 = "${thirdGeneController.text}";
                               String g4 = "${forthGeneController.text}";
                               String mu = "${mutationController.text}";
-                              String url = 'http://127.0.0.1:5000/test/$g1/$g2/$g3/$g4/$mu';
+                              String url = 'http://127.0.0.1:5000/genes/test/$g1/$g2/$g3/$g4/$mu';
                               var response = await http.post(
                                   Uri.parse(url),
                               );

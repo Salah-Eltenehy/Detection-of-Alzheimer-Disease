@@ -16,8 +16,7 @@ from flask import Flask
 from tensorflow.keras.utils import image_dataset_from_directory
 from tensorflow.keras import layers
 from flask import Flask
-import tkinter as tk
-from tkinter import filedialog
+from PIL import Image
 from PIL import Image
 class genes_model:
     def __init__(self):
@@ -39,7 +38,7 @@ class genes_model:
         # self.prepare_model()
         self.kmeans = KMeans(algorithm='auto', n_clusters=2, init='k-means++', n_init=10, max_iter=150, tol=0.0001,
                              random_state=42).fit(self.df2)
-        print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
+        #print('kmeans score: {}'.format(silhouette_score(self.df2, self.kmeans.labels_, metric='euclidean')))
         # print(self.kmeans.fit_predict(pd.DataFrame([319.871200, 654.391660, 319.871400, 319.871500, 319.871450])))
         # self.plot_clusters()
         self.predict()
@@ -308,29 +307,36 @@ def genes_test(g1, g2, g3, g4, mu):
     res = g_model.test_gene_from_front(float(g1), float(g2), float(g3), float(g4), float(mu))
     return {"response": res}
 
-@app.route("/mri/test/<path>", methods=['POST', 'GET'])
-def mri_test(path):
-    path = path.replace(',', '/')
-    print(path)
-    predict('F:/test/')
-    print("DNE")
-    return {"response": "res"}
-
-root = tk.Tk()
-root.withdraw()
-
-@app.route("/choose", methods=['GET'])
+@app.route("/choose", methods=['POST'])
 def choose_image():
+    path = str(request.form.get('path'))
 
-    print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-    file_path = filedialog.askdirectory()
-    res = predict(file_path)
+    res = mri.predict(path) 
     return {
             "res": res,
-            "data": data[res],
-            "recomendations": recomendations[res]
+            "data": data["MildDemented"],
+            "recomendations": recomendations["MildDemented"]
             } 
+app.run(debug=False)
 
+
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+@app.route('/example', methods=['POST'])
+def example():
+    # retrieve parameters from request
+    param1 = str(request.form.get('param1'))
+    param2 = str(request.form.get('param2'))
+
+    # add code to process parameters
+    result = param1 + param2
+
+    # return response as JSON object
+    response = {'result': result}
+    return jsonify(response)
+app.run(debug=False)
+
+mri.predict('F:/test/') 
 data = {
         "MildDemented": 
             [
@@ -461,8 +467,24 @@ predict('F:/test/')
 
 
 
+import threading
+import time
 
+def thread_function1():
+    print("Thread 1 started")
+    time.sleep(5)
+    print("Resuming program after 5 seconds")
+    # add code to be executed in thread 1
 
+def thread_function2():
+    print("Thread 2 started")
+
+thread1 = threading.Thread(target=thread_function1)
+thread2 = threading.Thread(target=thread_function2)
+
+# start both threads
+thread1.start()
+thread2.start()
 
 
 

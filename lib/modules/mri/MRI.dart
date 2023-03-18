@@ -12,6 +12,7 @@ import '../account/Account.dart';
 import '../testGenes/TestGenesScreen.dart';
 import '../webView/WebView.dart';
 import 'MRIModelInformatin.dart';
+import 'PathScreen.dart';
 
 class MRIMainScreen extends StatelessWidget {
   late int index;
@@ -113,7 +114,7 @@ class MRIMainScreen extends StatelessWidget {
                         Expanded(
                           child: InkWell(
                             onTap: ()  {
-                              navigateTo(context, TestGenesModel(index));
+                              navigateTo(context, PathScreen());
                             },
                             child: rowElement(
                                 text: "Test Model",
