@@ -9,6 +9,16 @@ from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 
 
+
+def test_2():
+    print("DNEEEEEEE")
+
+
+
+
+
+
+
 class Model:
     def __init__(self):
         self.kmeans = None

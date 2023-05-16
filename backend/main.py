@@ -1,3 +1,89 @@
+import genes_model
+
+import sys
+sys.path.append('F:\\flutter\\alzheimer\\backend\\')
+
+
+print(sys.path)
+genes_model.test_2()
+
+import mysql.connector
+
+# Establish a connection to the database
+cnx = mysql.connector.connect(
+    user='root', 
+    password='new',
+    host='localhost', 
+    database='alzheimer')
+
+
+
+
+# Execute a query
+cursor = cnx.cursor()
+query = ("INSERT INTO label_info (label, description) VALUES (%s, %s)")
+values = ('tessst', 'yes')
+
+cursor.execute(query, values)
+
+q = "INSERT into users (user_name, email, password, phone, description, is_doctor) VALUES ('aaaaaaaaaaaaaaaa', 'agresasasasasen@example.com', 'mypasswsasasaord', '7778889999', 'I work in healthcare administration.', 0);"
+def fun_test(name, email, password, phone, text, doctor):
+    f = f""" 
+    INSERT into users (user_name, email, password, phone, description, is_doctor) VALUES
+    ('{name}', '{email}', '{password}', '{phone}', '{text}', {doctor});
+    """
+    print(f)
+    # Establish a connection to the database
+    cnx = mysql.connector.connect(
+        user='root', 
+        password='new',
+        host='localhost', 
+        database='alzheimer')
+    # Execute a query
+    cursor = cnx.cursor()
+    q = "SELECT email, password FROM users;"
+    v = ("tessst")
+    cursor.execute(q)
+    result  = cursor.fetchall()
+    print(result)
+    
+fun_test('name', 'email', 'password', 'phone', 'text', 1)
+cursor.execute(q)
+email = "sasasa"
+use = "salah"
+ph = "0120121"
+d = "sasasas"
+pas = "sasasa"
+do = 1
+f = f""" 
+INSERT into users (user_name, email, password, phone, description, is_doctor) VALUES
+('{use}', '{email}', '{pas}', '{ph}', '{d}', {do});
+"""
+print(f)
+
+q = "SELECT * FROM users;"
+v = ("tessst")
+cursor.execute(q)
+result  = cursor.fetchall()
+print(result)
+x = 10
+print(cursor)
+result  = cursor.fetchall()
+res = str(result[0]).split("\", ")
+print(result[0][0])
+# Retrieve the results
+for row in cursor:
+    print("YESSSSSSSSSSSSSSSSSSSSSSS")
+    print(row[0])
+
+# Clean up
+cursor.close()
+cnx.close()
+
+
+
+
+
 import numpy as np  # linear algebra
 import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
