@@ -1,3 +1,4 @@
+import 'package:alzheimer/Test.dart';
 import 'package:alzheimer/modules/SignIn/SignIn.dart';
 import 'package:alzheimer/shared/functions/shared_function.dart';
 import 'package:alzheimer/shared/network/local/cache_helper.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import '../../shared/constants/Constants.dart';
 
 class UserAccount extends StatefulWidget {
-
+  final index;
+  UserAccount(this.index);
   @override
   State<UserAccount> createState() => _UserAccountState();
 }
@@ -84,54 +86,51 @@ class _UserAccountState extends State<UserAccount> {
         title: const Text('Account'),
         centerTitle: true,
       ),
-      body: Form(
-        key: formKey,
-        child: Center(
-          child: Container(
-            width: PAGEWIDTH/1.2,
-            height: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                color: Colors.grey[100]
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: ListView(
-                children: [
-                  const SizedBox(height: 20,),
-                  const SizedBox(height: 20,),
-                  textField(controller: usernameController, label: 'User Name'),
-                  const SizedBox(height: 10,),
-                  textField(controller: emailController, label: 'Email Address'),
-                  const SizedBox(height: 10,),
-                  textField(controller: phoneController, label: 'Phone Number'),
-                  const SizedBox(height: 10,),
-                  textField(controller: passwordController, label: 'Password'),
-                  const SizedBox(height: 26,),
-                  Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10)
+      body: Row(
+        children: [
+          Expanded(child: PageViewScreen(widget.index)),
+          Expanded(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView(
+                  children: [
+                    const SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
+                    textField(controller: usernameController, label: 'User Name'),
+                    const SizedBox(height: 10,),
+                    textField(controller: emailController, label: 'Email Address'),
+                    const SizedBox(height: 10,),
+                    textField(controller: phoneController, label: 'Phone Number'),
+                    const SizedBox(height: 10,),
+                    textField(controller: passwordController, label: 'Password'),
+                    const SizedBox(height: 26,),
+                    Container(
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: MaterialButton(
+                        color: kPrimaryColor,
+                          onPressed: () {
+                              if(formKey.currentState!.validate()) {
+                                updateUser(emailController.text, phoneController.text, usernameController.text);
+                                updateEmailAndPassword(emailController.text, passwordController.text);
+                                navigateAndFinish(context, SignInScreen());
+                              }
+                          },
+                        child: const Center(child: Text("Save", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
+                      ),
                     ),
-                    child: MaterialButton(
-                      color: kPrimaryColor,
-                        onPressed: () {
-                            if(formKey.currentState!.validate()) {
-                              updateUser(emailController.text, phoneController.text, usernameController.text);
-                              updateEmailAndPassword(emailController.text, passwordController.text);
-                              navigateAndFinish(context, SignInScreen());
-                            }
-                        },
-                      child: const Center(child: Text("Save", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
